@@ -1,0 +1,46 @@
+#include <bits/stdc++.h> 
+void merge(long long *arr, int p, int m , int q, long long &inv_count){
+    int l1 = m-p+1;
+    int l2 = q-m;
+    int i , j , k;
+    long long left[l1],right[l2];
+    for(i = 0 ; i<l1; i++){
+        left[i] = arr[p+i];
+    }
+    for(j = 0; j<l2; j++){
+        right[j] = arr[m+j+1];
+    }
+    i = 0;
+    j = 0;
+    k=p;
+    while(i<l1 && j<l2){
+        if(left[i]<=right[j]){
+            arr[k++] = left[i++];
+        }
+        else{
+            arr[k++] = right[j++];
+            inv_count+=l1-i;
+        }
+    }
+    while(i<l1){
+        arr[k++] = left[i++];
+    }
+    while(j<l2){
+        arr[k++] = right[j++];
+    }
+    
+}
+void merge_sort(long long *arr, int p, int q, long long &inv_count){
+    if(p<q){
+        int m = (p+q)/2;
+        merge_sort(arr,p,m,inv_count);
+        merge_sort(arr,m+1,q,inv_count);
+        merge(arr,p,m,q,inv_count);
+    }
+}
+long long getInversions(long long *arr, int n){
+    // Write your code here.
+    long long inv_count = 0;
+    merge_sort(arr,0,n-1,inv_count);
+    return inv_count;
+}
