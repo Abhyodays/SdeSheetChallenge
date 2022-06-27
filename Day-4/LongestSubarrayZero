@@ -1,0 +1,47 @@
+Approach : 1
+T(n) = O(n^2)
+
+#include <bits/stdc++.h> 
+int LongestSubsetWithZeroSum(vector < int > arr) {
+
+  // Write your code here
+    int ans = 0,n = arr.size();
+    for(int i = 0 ; i<n ;i++){
+        int sum = 0;
+        for(int j = i ; j<n ; j++){
+            sum+=arr[j];
+            if(sum==0){
+                ans = max(ans,j-i+1);
+            }
+        }
+    }
+    return ans;
+
+}
+
+
+Optimized Approach:
+T(n) = O(n) & Space = O(n)
+
+#include <bits/stdc++.h> 
+int LongestSubsetWithZeroSum(vector < int > arr) {
+
+  // Write your code here
+    unordered_map<int, int>mp;
+    int sum = 0, n = arr.size(),ans = 0;
+    for(int i = 0 ;i<n; i++){
+        sum+=arr[i];
+        if(sum==0){
+            ans = i+1;
+        }
+        else{
+            if(mp.find(sum) != mp.end()){
+                ans = max(ans,i-mp[sum]);
+            }
+            else{
+                mp[sum] = i;
+            }
+        }
+    }
+    return ans;
+}
