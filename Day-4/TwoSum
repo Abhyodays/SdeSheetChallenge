@@ -13,3 +13,6 @@ public:
         return {-1, -1};
     }
 };
+
+
+S(n) = n, T(n) = O(nlogn)
