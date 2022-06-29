@@ -1,0 +1,20 @@
+Using Two Pointer Approach
+
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head==NULL) return false;
+        
+        ListNode *fptr = head->next;
+        ListNode* sptr = head;
+        while(fptr!=NULL && fptr->next!=NULL){
+                fptr = fptr->next->next;
+            sptr = sptr->next;
+            
+            if(fptr==sptr)return true;
+        }
+        return false;
+    }
+};
+
+T(n) = O(n) Space = O(1)
