@@ -1,0 +1,62 @@
+1.Brute Force:
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(headA==headB) return headA;
+        ListNode *tempA = headA;
+  //    For every node of List1 checking every node of List2.
+  
+        while(tempA){
+            ListNode *tempB = headB;
+            while(tempB){
+                if(tempA == tempB) return tempA;
+                tempB = tempB->next;
+            }
+            tempA= tempA->next;
+        }
+        return NULL;
+    }
+};
+T(n) = O(m*n) , Space = O(1)
+
+
+2.Optimized Approach (Time):
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+//         Using a set to store address of node.
+        unordered_set<ListNode*>mp;
+        while(headA){
+            mp.insert(headA);
+            headA = headA->next;
+        }
+//         if headB is present in set then it is intersection.
+        while(headB){
+            if(mp.find(headB) != mp.end()) return headB;
+            headB = headB->next;
+        }
+        return NULL;
+    }
+};
+
+T(n) = O(m+n), space = O(n)
+
+3. Optimal Solution(Time & Space):
+For intution see Striver SDE sheet.
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *tempA = headA, *tempB = headB;
+        while(tempA != tempB){
+            tempA = tempA==NULL?headB:tempA->next;
+//          Now the difference between tempA and tempB equals to the L2-L1.
+            tempB = tempB==NULL?headA:tempB->next;
+        }
+        return tempA;
+    }
+};
+
+T(n) = O(2*m) Space = O(1)
