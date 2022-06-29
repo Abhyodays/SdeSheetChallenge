@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int getLength(ListNode*head){
+        int count  = 0;
+        while(head){
+            count++;
+            head = head->next;
+        }
+        return count;
+    }
+    
+    
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        int n = getLength(head);
+        int iterations = n/k;
+        
+//         Iterations = No. of Groups in whole list.
+        
+        ListNode *prev = NULL;
+        ListNode *curr = head;
+        while(iterations>0){
+            ListNode *preLast = prev;
+            ListNode *newEnd= curr;
+            for(int i = 0; curr!=NULL && i<k ; i++){
+                ListNode *next = curr->next;
+                curr->next = prev;
+                prev = curr;
+                curr = next;
+            }
+            if(preLast==NULL) head = prev;
+            else{
+                preLast->next = prev;
+            }
+//             connecting prev. reversed group to new reversed group.
+            newEnd->next = curr;
+//          prev is now starting of new group so re-align it to prev. of current.
+            prev = newEnd;
+            iterations--;
+        }
+        return head;
+    }
+};
