@@ -1,0 +1,33 @@
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *fast = head, *slow = head;
+        int count = 0;
+        while(fast!=NULL && fast->next!=NULL){
+            fast = fast->next->next;
+            slow = slow->next;
+            if(fast==slow){
+                do{
+                    count++;
+                    slow = slow->next;
+                }while(slow!=fast);
+                break;
+            }
+        }
+        
+        if(count==0) return NULL;
+        
+//         Now we track the loop Node.
+        
+        ListNode *f = head, *s = head;
+        while(count>0){
+            s = s->next;
+            count--;
+        } 
+        while(f!=s){
+            f = f->next;
+            s = s->next;
+        }
+        return s;
+    }
+};
