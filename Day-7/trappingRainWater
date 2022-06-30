@@ -1,0 +1,86 @@
+1. Brute Force Approach:  
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        int res = 0;
+        for(int i = 0 ; i<n; i++){
+            int maxleft = 0,maxright = 0,left = i,right = i;
+            while(left>=0){
+                maxleft = max(height[left],maxleft);
+                left--;
+            }
+            while(right<n){
+                maxright = max(height[right], maxright);
+                right++;
+            }
+            res+=min(maxleft,maxright)-height[i];
+        }
+        return res;
+    }
+};
+
+T(n) = O(n^2) , space = 0;
+
+2. Better Approach:
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        int res = 0;
+        int preMax[n],sufMax[n];
+        
+        preMax[0] = height[0];
+        sufMax[n-1] = height[n-1];
+        
+        for(int i = 1; i<n; i++){
+            preMax[i] = max(preMax[i-1], height[i]);
+        }
+        for(int i = n-2; i>=0; i--){
+            sufMax[i] = max(sufMax[i+1],height[i]);
+        }
+        
+        for(int i = 0 ; i<n ; i++){
+            res+=min(preMax[i],sufMax[i])-height[i];
+        }
+    return res;
+    }
+    
+};
+
+T(n) = O(3n)   space = O(2n)
+
+
+2. Optimal Approach:
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int left = 0 , right = height.size()-1, leftMax= 0 , rightMax = 0,res = 0;
+        while(left<=right){
+            if(height[left]<=height[right]){
+                if(height[left]>=leftMax){
+                    leftMax = height[left];
+                }
+                else{
+                    res += leftMax-height[left];
+                }
+                left++;
+            }
+            else{
+                if(height[right]>=rightMax){
+                    rightMax = height[right];
+                }
+                else{
+                    res += rightMax-height[right];
+                }
+                right--;
+            }
+        }
+        return res;
+    }
+};
+
+T(n) = O(n), Space = O(1)
