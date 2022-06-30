@@ -1,0 +1,28 @@
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(k<=0 || !head || !head->next) return head;
+        int size = 0;
+        ListNode *last = head;
+        int length = 1;
+//         Finding Length and LastNode of LL.
+        while(last->next){
+            length++;
+            last = last->next;
+        }
+        int rotations = k%length;
+        ListNode* newLast = head;
+//         Pointing to new subList to append at front
+//         so skip first length -k nodes.
+        for(int i = 0; i<length-rotations-1;i++){
+            newLast = newLast->next;
+        }
+//         Append New SubList into front.
+        last->next = head;
+        head = newLast->next;
+        newLast->next = NULL;
+        
+        return head;
+        }
+        
+};
