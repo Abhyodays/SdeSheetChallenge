@@ -1,0 +1,36 @@
+class Solution{
+    public:
+    void generatePath(string path,vector<vector<int>> &m,int r, int c, int n, vector<string> & allPath){
+        if(r<0 || r>=n ||c<0 || c>=n) return;
+        if(m[r][c]==0) return;  //If this path is already visited then return
+        if(r==n-1 && c==n-1){
+            allPath.push_back(path);
+            return;
+        }
+        m[r][c] = 0;  // mark visited to further go
+        if(r<n-1){
+            generatePath(path+'D',m,r+1,c,n,allPath);
+        }
+        if(r>0){
+            generatePath(path+'U',m,r-1,c,n,allPath);
+        }
+        if(c<n-1){
+            generatePath(path+'R',m,r,c+1,n,allPath);
+        }
+        if(c>0){
+            generatePath(path+'L',m,r,c-1,n,allPath);
+        }
+        
+        m[r][c] = 1; //Mark unvisited for other path
+        
+    }
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+        // Your code goes here
+        vector<string>allPath;
+        string path = "";
+        generatePath(path,m,0,0,n,allPath);
+        return allPath;
+    }
+};
+
+T(n) = O(4^n^2)
