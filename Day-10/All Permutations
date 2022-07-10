@@ -1,0 +1,21 @@
+class Solution {
+    void permutate(vector<int>nums,int l, int r, vector<vector<int>>&permutations){
+        if(l==r){
+            permutations.push_back(nums);
+            return ;
+        }
+        for(int i = l; i<=r; i++){
+            swap(nums[l],nums[i]);
+            permutate(nums,l+1, r, permutations);
+            swap(nums[l],nums[i]);
+        }
+    }
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>>permutations;
+        permutate(nums,0,nums.size()-1,permutations);
+        return permutations;
+    }
+};
+
+T(n)= n*n!;
