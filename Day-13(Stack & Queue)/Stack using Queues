@@ -1,3 +1,5 @@
+Using two Queues
+
 class MyStack {
 public:
     queue<int>q;
@@ -31,10 +33,50 @@ public:
     
     int top() {
         if(q.empty()) return -1;
-        return q.front();
-    }
+        return q.front
     
     bool empty() {
         return q.empty();
     }
 };
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Using Single Queues
+
+class MyStack {
+public:
+    queue<int>q;
+    int size;
+    MyStack() {
+        size = 0;
+    }
+    
+    void push(int x) {
+        q.push(x);
+        for(int i= 0 ; i<size; i++){
+            int temp = q.front();
+            q.pop();
+            q.push(temp);
+        }
+        size++;
+        
+    }
+    
+    int pop() {
+        if(size==0) return -1;
+        int temp = q.front();
+        q.pop();
+        size--;
+        return temp;
+    }
+    
+    int top() {
+        return q.front();
+    }
+    
+    bool empty() {
+        return (size==0);
+    }
+};
+
