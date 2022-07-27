@@ -1,0 +1,37 @@
+class StockSpanner {
+public:
+    stack<pair<int,int>>st;  //pair< ngl[i], i >
+    vector<int>ngl;
+    StockSpanner() {
+        
+    }
+    
+    int next(int price) {
+        if(st.empty()){
+            ngl.push_back(-1);
+        }
+        else if(st.top().first>price){
+            ngl.push_back(st.top().second);
+        }
+        else if(st.top().first<=price){
+            while(!st.empty() && st.top().first<=price){
+                st.pop();
+            }
+            if(st.empty()){
+                ngl.push_back(-1);
+            }
+            else{
+                ngl.push_back(st.top().second);
+            }
+        }
+        st.push({price,ngl.size()-1});
+        int n = ngl.size();
+        return (n-1)-ngl[n-1];
+    }
+};
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */
