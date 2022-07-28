@@ -1,0 +1,21 @@
+int solution(TreeNode* root, int ans){
+// if node is leaf node the return ans variable
+    if(root->left==NULL && root->right==NULL){
+        return ans*2+root->val;
+    }
+    int sum = 0;
+ // for every internal node go left and right and return sum.
+    if(root->left != NULL){
+        sum+= solution(root->left, ans*2+root->val);
+    }
+    if(root->right != NULL){
+        sum+= solution(root->right, ans*2+root->val);
+    }
+    return sum;
+    
+}
+int solve(TreeNode* root){
+//CODE HERE 
+int sum = solution(root,0);
+return sum;
+}
