@@ -1,0 +1,29 @@
+void fillImage(vector<vector<int>> &image, int sr, int sc, int newColor,int color, int m, int n){
+    if(image[sr][sc]==newColor){
+        return;
+    }
+    image[sr][sc] = newColor;
+    if(sr>0 && image[sr-1][sc] == color){
+        fillImage(image,sr-1,sc,newColor,color,m,n);
+    }
+    if(sr<m-1 && image[sr+1][sc] == color){
+        fillImage(image,sr+1,sc,newColor,color,m,n);
+    }
+    if(sc>0 && image[sr][sc-1]== color){
+        fillImage(image,sr,sc-1,newColor,color,m,n);
+    }
+    if(sc<n-1 && image[sr][sc+1]==color){
+        fillImage(image,sr,sc+1,newColor,color,m,n);
+    }
+}
+
+vector<vector<int>> solve(vector<vector<int>> image, int sr, int sc, int newColor){
+//CODE HERE 
+if(image[sr][sc]==newColor) return image;
+int m = image.size();
+int n = image[0].size();
+int color = image[sr][sc];
+fillImage(image,sr,sc,newColor,color,m,n);
+return image;
+
+}
