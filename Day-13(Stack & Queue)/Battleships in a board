@@ -1,0 +1,45 @@
+class Solution {
+public:
+    void sink(vector<vector<char>>& board, int i, int j){
+        if(i<0 || i>=board.size() || j<0|| j>= board[i].size()|| board[i][j] != 'X') return;
+        board[i][j]='.';
+        sink(board,i-1,j);
+        sink(board,i+1,j);
+        sink(board,i,j-1);
+        sink(board,i,j+1);
+    }
+    int countBattleships(vector<vector<char>>& board) {
+        int noOfBattleShips = 0;
+        for(int i=0; i<board.size(); i++){
+            for(int j=0; j<board[i].size(); j++){
+                if(board[i][j]=='X'){
+                    sink(board,i,j);
+                    noOfBattleShips++;
+                }
+            }
+        }
+        return noOfBattleShips;
+    }
+};
+
+T(n) = O(n^2)
+Space = O(m+n)
+and Modification in board
+
+Better Solution:
+
+class Solution {
+public:
+    int countBattleships(vector<vector<char>>& board) {
+        int noOfBattleships = 0;
+        for(int i= 0 ; i<board.size(); i++){
+            for(int j=0;j<board[i].size(); j++){
+                if(board[i][j]=='.') continue;
+                if(i>0 && board[i-1][j]=='X') continue;  //because this section is part of same battleships of previous row.
+                if(j>0 && board[i][j-1]=='X') continue;  //because this section is part of same battleships of previous column.
+                noOfBattleships++;  //it is first occurence of battleship
+            }
+        }
+        return noOfBattleships;
+    }
+};
