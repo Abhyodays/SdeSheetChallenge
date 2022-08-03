@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int height(TreeNode* root){
+        if(root==NULL) return 0;
+        return (max(height(root->right),height(root->left))+1);
+    }
+    bool isBalanced(TreeNode* root) {
+        if(root==NULL) return true;
+        return isBalanced(root->left)&&isBalanced(root->right)&&(abs(height(root->right)-height(root->left))<=1);
+    }
+};
+
+T(n) = O(n^2) Space = O(n)
+
+
+method 2
+
+class Solution {
+public:
+//     pair<isBalance,height>
+    pair<bool,int>getHeight(TreeNode*root){
+        if(root==NULL) return {true,0};
+        
+        pair<bool,int>left = getHeight(root->left);
+        pair<bool,int>right = getHeight(root->right);
+        bool isBalance = (abs(left.second-right.second)<=1);
+        int height = max(left.second,right.second);
+        return {(left.first && right.first&& isBalance),height+1};
+    }
+    bool isBalanced(TreeNode* root) {
+        return getHeight(root).first;
+    }
+};
+
+T(n) = O(n) Space = O(2n)
