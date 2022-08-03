@@ -1,0 +1,50 @@
+class Solution
+{
+    public:
+    int sum(Node *root){
+        if(root==NULL) return 0;
+        return (root->data+sum(root->left)+sum(root->right));
+    }
+    bool isSumTree(Node* root)
+    {
+         // Your code here
+         if(root==NULL) return true;
+         if(root->left==NULL and root->right==NULL) return true;
+         if(isSumTree(root->left) && isSumTree(root->right)){
+             int lsum = sum(root->left);
+             int rsum = sum(root->right);
+             return(lsum+rsum==root->data);
+         }
+         return false;
+    }
+};
+
+T(n) = O(n^2) space = O(n)
+
+
+method 2
+
+class Solution
+{
+    public:
+    pair<bool,int> sum(Node *root){
+        if(root==NULL) return {true,0};
+        if(root->left==NULL and root->right==NULL){
+            return {true,root->data};
+        }
+        pair<bool,int>lsum = sum(root->left);
+        pair<bool,int>rsum = sum(root->right);
+        if(lsum.first && rsum.first){
+            bool isSum = (lsum.second+rsum.second==root->data);
+            return {isSum,lsum.second+rsum.second+root->data};
+        }
+        return {false,lsum.second+rsum.second+root->data};
+    }
+    bool isSumTree(Node* root)
+    {
+         // Your code here
+         return sum(root).first;
+    }
+};
+
+T(n) = O(n) Space = O(n)
