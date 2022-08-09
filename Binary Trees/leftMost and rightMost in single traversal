@@ -1,0 +1,27 @@
+void printCorner(Node *root)
+{
+
+// Your code goes here
+queue<Node*>q;
+q.push(root);
+while(!q.empty()){
+    int len = q.size();
+    if(len==1){
+        cout<<q.front()->data<<" ";
+    }
+    else{
+        cout<<q.front()->data<<" "<<q.back()->data<<" ";
+    }
+    for(int i=0;i<len;i++){
+        Node*fNode = q.front();
+        q.pop();
+        if(fNode->left){
+            q.push(fNode->left);
+        }
+        if(fNode->right){
+            q.push(fNode->right);
+        }
+    }
+}
+
+}
