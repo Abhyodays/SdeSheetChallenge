@@ -1,0 +1,72 @@
+Postorder:
+
+vector <int> postOrder(Node* root)
+{
+  // Your code here
+  vector<int>ans;
+  if(root==NULL) return ans;
+  stack<Node*>s;
+  Node* node;
+  s.push(root);
+  while(!s.empty()){
+      node = s.top();
+      s.pop();
+      ans.push_back(node->data);
+      if(node->left){
+          s.push(node->left);
+      }
+      if(node->right){
+          s.push(node->right);
+      }
+  }
+  reverse(ans.begin(),ans.end());
+  return ans;
+  
+}
+
+
+Preorder:
+
+vector <int> preorder(Node* root)
+{
+  // Your code here
+  vector<int>ans;
+  if(root==NULL) return ans;
+  stack<Node*>st;
+  Node*curr = root;
+  while(curr!=NULL || !st.empty()){
+      while(curr!=NULL){
+          ans.push_back(curr->data);
+          st.push(curr);
+          curr = curr->left;
+      }
+      curr = st.top();
+      st.pop();
+      curr = curr->right;
+  }
+  return ans;
+}
+
+
+Inorder:
+
+    vector<int> inOrder(Node* root) {
+        // Your code here
+        vector<int>ans;
+        if(root==NULL) return ans;
+        stack<Node*>st;
+        Node*curr = root;
+        while(curr!=NULL || !st.empty()){
+            while(curr!=NULL){
+                st.push(curr);
+                curr = curr->left;
+            }
+            curr = st.top();
+            ans.push_back(curr->data);
+            st.pop();
+            curr = curr->right;
+            
+        }
+        
+        return ans;
+    }
