@@ -1,0 +1,22 @@
+link: https://www.interviewbit.com/problems/path-to-given-node/
+
+ bool getPath(TreeNode* A, int B,vector<int>&v){
+     if(A==NULL) return false;
+     v.push_back(A->val);
+     // if root.val is equal to B return
+     if(A->val==B)return true;
+     bool left = getPath(A->left,B,v);
+     bool right = getPath(A->right,B,v);
+     // if path is not in left subtree and right subtree then there is no path possible from this root so pop
+     if(!left and !right){
+         v.pop_back();
+         return false;
+     }
+     // path is availible in left root or right root
+     return true;
+ }
+vector<int> Solution::solve(TreeNode* A, int B) {
+    vector<int>v;
+    getPath(A,B,v);
+    return v;
+}
