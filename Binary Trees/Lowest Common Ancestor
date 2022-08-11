@@ -1,0 +1,16 @@
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root==NULL) return NULL;
+        if(root->val==p->val || root->val==q->val) return root;  //answer is this node or above node
+        
+        TreeNode *left = lowestCommonAncestor(root->left,p,q);  
+        TreeNode *right = lowestCommonAncestor(root->right,p,q);
+        if(left && right) return root;    // here root is LCA
+        if(left==NULL && right) return right;  // here probable answer is right
+        if(left && right==NULL) return left; // and here left
+        return NULL;   //answer not found
+    }
+};
+
+T(n) = n, space = N
