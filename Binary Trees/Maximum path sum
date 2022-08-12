@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int getMaxSum(TreeNode *root,int &maxSum){
+        if(root==NULL) return 0;
+        
+        int leftSum = max(0,getMaxSum(root->left,maxSum));  // to get maximum sum negative values does not matter so ignore them
+        int rightSum = max(0,getMaxSum(root->right,maxSum));
+        
+        maxSum = max(maxSum,root->val+leftSum+rightSum); // here minimum negative value also considered as answer beacuse root.val can be negative also.
+        
+        return max(leftSum,rightSum)+root->val; 
+    }
+    int maxPathSum(TreeNode* root) {
+        int maxSum =INT_MIN;
+        getMaxSum(root,maxSum);
+        return maxSum;
+    }
+};
