@@ -33,3 +33,24 @@ public:
 };
 
 T(n) = O(n) Space = O(2n)
+
+method- 3: (Solution without pair)
+
+class Solution {
+public:
+    int checkBalance(TreeNode *root, bool &isBalance){
+        if(root==NULL) return 0;
+        
+        int left = checkBalance(root->left,isBalance);
+        int right = checkBalance(root->right,isBalance);
+        isBalance = isBalance &&(abs(left-right)<=1);
+        return max(left,right)+1;
+    }
+    bool isBalanced(TreeNode* root) {
+        bool isBalance = true;
+        checkBalance(root,isBalance);
+        return isBalance;
+    }
+};
+
+
