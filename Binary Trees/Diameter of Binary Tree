@@ -1,0 +1,39 @@
+method- 1
+
+class Solution {
+public:
+    int height(TreeNode *root){
+        if(root==NULL) return 0;
+        return max(height(root->left),height(root->right))+1;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(root==NULL) return 0;
+        
+        int left = diameterOfBinaryTree(root->left);
+        int right = diameterOfBinaryTree(root->right);
+        int h = height(root->left)+height(root->right);
+        return max(max(left,right),h);
+    }
+};
+T(N) = O(H*n), Space = O(H);
+
+Method- 2*:
+
+class Solution {
+public:
+    //pair<height,Diameter>
+    pair<int,int>getDiameter(TreeNode* root){
+        if(root==NULL) return {0,0};
+        
+        auto left = getDiameter(root->left);
+        auto right = getDiameter(root->right);
+        int height = max(left.first,right.first)+1;
+        int diameter = max(max(left.second,right.second),left.first+right.first);
+        return {height,diameter};
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        return getDiameter(root).second;
+    }
+};
+
+T(n) = O(n), Space = O(h)
