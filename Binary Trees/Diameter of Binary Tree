@@ -21,18 +21,19 @@ Method- 2*:
 
 class Solution {
 public:
-    //pair<height,Diameter>
-    pair<int,int>getDiameter(TreeNode* root){
-        if(root==NULL) return {0,0};
+    int getDiameter(TreeNode* root,int &diameter){
+        if(root==NULL) return 0;
         
-        auto left = getDiameter(root->left);
-        auto right = getDiameter(root->right);
-        int height = max(left.first,right.first)+1;
-        int diameter = max(max(left.second,right.second),left.first+right.first);
-        return {height,diameter};
+        int left = getDiameter(root->left,diameter);
+        int right = getDiameter(root->right,diameter);
+        diameter = max(diameter,left+right);
+        return max(left,right)+1;
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        return getDiameter(root).second;
+        int diameter = 0;
+        getDiameter(root,diameter);
+        return diameter;
+        
     }
 };
 
