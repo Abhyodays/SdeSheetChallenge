@@ -1,0 +1,59 @@
+method-1 
+
+class Solution {
+public:
+    int getPosition(vector<int>& inorder,int target){
+        for(int i=0;i<inorder.size();i++){
+            if(target==inorder[i]) return i;
+        }
+        return -1;
+    }
+    TreeNode *makeTree(vector<int>&preorder,vector<int>& inorder,int &index, int s, int e){
+        int n= preorder.size();
+        if(index>=n|| s>e) return NULL;
+        
+        int position = getPosition(inorder,preorder[index]);
+        TreeNode *node = new TreeNode(inorder[position]);
+        index++;
+        node->left = makeTree(preorder,inorder,index,s,position-1);
+        node->right = makeTree(preorder,inorder,index,position+1,e);
+        return node;
+        
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int n=preorder.size();
+        int index = 0;
+        return makeTree(preorder,inorder,index,0,n-1);
+    }
+};
+
+T(n) = O(n^2) ,space = O(N)
+
+method-2 Optimized
+
+class Solution {
+public:
+    unordered_map<int,int>getPositions;
+    TreeNode *makeTree(vector<int>&preorder,vector<int>& inorder,int &index, int s, int e){
+        int n= preorder.size();
+        if(index>=n|| s>e) return NULL;
+        
+        int position = getPositions[preorder[index]];
+        TreeNode *node = new TreeNode(inorder[position]);
+        index++;
+        node->left = makeTree(preorder,inorder,index,s,position-1);
+        node->right = makeTree(preorder,inorder,index,position+1,e);
+        return node;
+        
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int n=preorder.size();
+        for(int i=0;i<n;i++){
+            getPositions[inorder[i]] = i;
+        }
+        int index = 0;
+        return makeTree(preorder,inorder,index,0,n-1);
+    }
+};
+
+T(n) = O(N), Space = O(N)
