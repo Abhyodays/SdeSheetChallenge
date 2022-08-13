@@ -1,0 +1,25 @@
+class Solution {
+public:
+    TreeNode *makeTree(vector<int>&inorder, vector<int> &postorder, int &index, int start, int end , unordered_map<int,int> &positions){
+        if(index<0 || start>end) return NULL;
+        
+        int position = positions[postorder[index]];
+        TreeNode *node = new TreeNode(inorder[position]);
+        index--;
+        node->right = makeTree(inorder,postorder,index,position+1,end,positions);
+        node->left = makeTree(inorder,postorder,index,start,position-1,positions);
+        return node;
+    }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        unordered_map<int,int>mp;
+        int n = inorder.size();
+        for(int i=0;i<n;i++){
+            mp[inorder[i]] = i;
+        }
+        int index = n-1;
+        return makeTree(inorder,postorder,index,0,n-1,mp);
+        
+    }
+};
+
+Time: O(n), Space=O(n)
