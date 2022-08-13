@@ -1,0 +1,46 @@
+// Function to delete a node from BST.
+int getMinValue(Node *root){
+    while(root && root->left){
+        root = root->left;
+    }
+    return root->data;
+}
+Node *deleteNode(Node *root, int X) {
+    // your code goes here
+    if(root==NULL) return root;
+    if(root->data==X){
+        //leaf Node
+        if(root->left==NULL&&root->right==NULL){
+            delete root;
+            return NULL;
+        }
+        //Single child
+        if(root->left==NULL && root->right != NULL){
+            Node *temp = root->right;
+            delete root;
+            return temp;
+        }
+        if(root->left != NULL && root->right==NULL){
+            Node *temp = root->left;
+            delete root;
+            return temp;
+        }
+        
+        // double child
+        if(root->left!=NULL && root->right != NULL){
+            int minVal = getMinValue(root->right); 
+            root->data = minVal;           //replace root.val with inorder successor
+            root->right = deleteNode(root->right,minVal); //remove successor from tree
+            return root;
+        }
+    }
+    else if(root->data<X){
+        root->right = deleteNode(root->right,X);
+    }
+    else{
+        root->left = deleteNode(root->left,X);
+    }
+    return root;
+}
+
+T = O(H)||O(N) Space = O(H)
