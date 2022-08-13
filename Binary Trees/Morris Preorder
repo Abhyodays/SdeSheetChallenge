@@ -1,0 +1,30 @@
+vector <int> preorder(Node* root)
+{
+  // Your code here
+  vector<int>ans;
+  if(root==NULL) return ans;
+  while(root){
+      if(root->left==NULL){
+          ans.push_back(root->data);
+          root= root->right;
+      }
+      else{
+          Node *curr = root->left;
+          while(curr->right && curr->right!= root){
+              curr = curr->right;
+          }
+          if(curr->right==NULL){
+              curr->right=root;
+              ans.push_back(root->data);
+              root = root->left;
+          }
+          else{
+              curr->right = NULL;
+              root = root->right;
+          }
+      }
+  }
+  return ans;
+}
+
+time = O(N) Space = 1
