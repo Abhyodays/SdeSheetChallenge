@@ -1,0 +1,27 @@
+vector<int> inOrder(Node* root) {
+        // Your code here
+        vector<int>ans;
+        if(root==NULL) return ans;
+        while(root){ 
+            if(root->left==NULL){  //for leaf node or aligned binary tree.
+                ans.push_back(root->data);
+                root = root->right;  // here root moves from leaf to parent.
+            }
+            else{
+                Node *pre = root->left;  
+                while(pre->right && pre->right!=root){
+                    pre = pre->right;        //here pre is predecessor: rightmost child in left subtree
+                }
+                if(pre->right==NULL){
+                    pre->right = root;      //connecting predecessor with parent to go back.
+                    root = root->left;
+                }
+                else{
+                    pre->right = NULL;      //in second traversal it is used to disconnect predecessor from root
+                    ans.push_back(root->data);
+                    root = root->right;
+                }
+            }
+        }
+        return ans;
+    }
