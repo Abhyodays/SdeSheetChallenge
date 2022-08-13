@@ -1,0 +1,82 @@
+
+class Solution {
+  public:
+//   1. create a childToParent map to track parent of child
+//   2. find target node
+//   3. Burn tree using BFS
+
+
+//creating child to parent map and finding target node
+Node *getTargetNode(Node *root,int target,
+unordered_map<Node*,Node*>&childToParent){
+    if(root==NULL){
+        return NULL;
+    }
+    Node *targetNode = NULL;
+    queue<Node *>q;
+    q.push(root);
+    childToParent[root] = NULL;
+    while(!q.empty()){
+        Node *fNode = q.front();
+        q.pop();
+        if(fNode->data==target){
+            targetNode = fNode;
+        }
+        if(fNode->left){
+            childToParent[fNode->left] = fNode;
+            q.push(fNode->left);
+        }
+        if(fNode->right){
+            childToParent[fNode->right] = fNode;
+            q.push(fNode->right);
+        }
+    }
+    return targetNode;
+}
+
+int burnTree(Node *targetNode, unordered_map<Node*,Node*>&childToParent){
+    int ans = 0;
+    unordered_map<Node*,bool>visited;  //track already burned node
+    queue<Node *>q;
+    q.push(targetNode);
+    visited[targetNode] = true;
+    while(!q.empty()){
+        int len = q.size();
+        bool isQChanged = false; //check any new node burned in this iteration
+        for(int i=0;i<len;i++){ // burning node at a particular time
+        Node *fNode = q.front();
+        q.pop();
+        if(fNode->left && !visited[fNode->left]){
+            isQChanged = true;
+            visited[fNode->left] = true;
+            q.push(fNode->left);
+        }
+        if(fNode->right && !visited[fNode->right]){
+            isQChanged = true;
+            visited[fNode->right] = true;
+            q.push(fNode->right);
+        }
+        if(childToParent[fNode] && !visited[childToParent[fNode]]){
+            isQChanged = true;
+            visited[childToParent[fNode]] = true;
+            q.push(childToParent[fNode]);
+        }
+        }
+        if(isQChanged){
+            ans++;
+        }
+    }
+    return ans;
+    
+}
+    int minTime(Node* root, int target) 
+    {
+        // Your code goes here
+        unordered_map<Node *,Node *>childToParent;
+        // step-1 &2
+        Node *targetNode = getTargetNode(root,target,childToParent);
+        //step-3
+        int time = burnTree(targetNode,childToParent);
+        return time;
+    }
+};
