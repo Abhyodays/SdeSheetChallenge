@@ -1,0 +1,29 @@
+vector <int> postOrder(Node* root)
+{
+  // Your code here
+  vector<int>ans;
+  if(root==NULL) return ans;
+  while(root){
+      if(root->right==NULL){
+          ans.push_back(root->data);
+          root= root->left;
+      }
+      else{
+          Node *pre = root->right;
+          while(pre->left && pre->left != root){
+              pre = pre->left;
+          }
+          if(pre->left==NULL){
+              ans.push_back(root->data);
+              pre->left = root;
+              root = root->right;
+          }
+          else{
+              pre->left = NULL;
+              root = root->left;
+          }
+      }
+  }
+  reverse(ans.begin(),ans.end());
+  return ans;
+}
