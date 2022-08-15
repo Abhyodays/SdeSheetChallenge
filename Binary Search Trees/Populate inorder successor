@@ -1,0 +1,37 @@
+/*
+struct Node
+{
+    int data;
+    struct Node *left;
+    struct Node *right;
+    struct Node *next;
+
+    Node(int x)
+    {
+        data = x;
+        left = NULL;
+        right = NULL;
+        next = NULL;
+    }
+};
+*/
+class Solution
+{
+public:
+    void getSuccessor(Node *root, Node *&next){
+        if(root){
+            getSuccessor(root->right,next);
+            root->next = next; //for rightmost next is null
+            next = root;  // for left it is parent.
+            getSuccessor(root->left, next);
+        }
+    }
+    void populateNext(Node *root)
+    {
+        //code here
+        Node *next = NULL; //it stores successor either parent or child
+        getSuccessor(root,next);
+    }
+};
+
+T(n) = N , Space = N (aux)
