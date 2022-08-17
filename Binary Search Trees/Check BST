@@ -1,27 +1,12 @@
-class Solution
-{
-    public:
-    //Function to check whether a Binary Tree is BST or not.
-    pair<bool,pair<int,int>> checkBST(Node *root){  //pair<isBST,<min,MAX> >
-        if(root==NULL) return make_pair(true,make_pair(INT_MAX,0));
-        if(root->left==NULL and root->right==NULL) return {true,{root->data,root->data}};
-        
-        auto left = checkBST(root->left);
-        auto right = checkBST(root->right);
-        int rmin = right.second.first;
-        int rmax = right.second.second;
-        int lmax = left.second.second;
-        int lmin = left.second.first;
-        bool ans = left.first && right.first && root->data<rmin && root->data>lmax;
-        int maxTillNow = max(root->data,max(lmax,rmax));
-        int minTillNow = min(root->data,min(lmin,rmin));
-        
-        return {ans,{minTillNow,maxTillNow}};
+ class Solution {
+public:
+    bool isValidBST(TreeNode *root, TreeNode *minNode, TreeNode *maxNode){
+        if(!root) return true;
+        if(minNode && root->val <= minNode->val || maxNode && root->val >= maxNode->val) return false;
+        return isValidBST(root->left,minNode,root) && isValidBST(root->right,root,maxNode);
     }
-    bool isBST(Node* root) 
-    {
-        // Your code here
-        return checkBST(root).first;
+    bool isValidBST(TreeNode* root) {
+        return isValidBST(root,NULL,NULL);
     }
 };
 
