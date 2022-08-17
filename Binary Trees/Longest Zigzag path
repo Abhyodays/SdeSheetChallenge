@@ -1,0 +1,22 @@
+void getMaxLen(TreeNode* root,int curLen, int &maxLen,bool ltr){
+    maxLen = max(curLen,maxLen);
+    if(root==NULL) return;
+    if(ltr){
+        getMaxLen(root->left,curLen+1,maxLen,false);  // here we are going right to left so ltr = false
+        getMaxLen(root->right,0,maxLen,true);         // here ltr = true
+    }   
+    //when we come from right to left
+    else{
+        getMaxLen(root->left,0,maxLen,false);  
+        getMaxLen(root->right,curLen+1,maxLen,true); 
+    }
+}
+int solve(TreeNode* root){
+//CODE HERE 
+if(root==NULL || root->left==NULL && root->right==NULL) return 0;
+int maxLen = -1;
+getMaxLen(root->right,0,maxLen,true);  // boolean value is ltr
+getMaxLen(root->left,0,maxLen,false);
+
+return maxLen;
+}
