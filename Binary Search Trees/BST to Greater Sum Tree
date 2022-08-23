@@ -1,0 +1,49 @@
+method- 1 (Brute Force)
+
+void rInorder(TreeNode *root, vector<int> &arr){
+    if(root==NULL) return;
+    rInorder(root->right,arr);
+    arr.push_back(root->val);
+    rInorder(root->left, arr);
+}
+
+void updateTree(TreeNode *&root, vector<int>arr,int &index){
+    if(root==NULL || index >= arr.size()) return;
+    updateTree(root->right,arr,index);
+    root ->val = arr[index];
+    index++;
+    updateTree(root->left,arr,index);
+}
+TreeNode* solve(TreeNode* root){
+//CODE HERE 
+vector<int> arr;
+rInorder(root,arr);
+for(int i=1; i<arr.size();i++){
+    arr[i] = arr[i]+arr[i-1];
+}
+int index = 0;
+updateTree(root,arr,index);
+return root;
+}
+
+Time: O(N) Space = O(N) + auxiliary
+
+Method-2 (Optimized)
+
+class Solution {
+public:
+    void rInorder(TreeNode *&root,int &sum){
+        if(root==NULL) return ;
+        rInorder(root->right,sum);
+        sum+= root->val;
+        root->val = sum;
+        rInorder(root->left, sum);
+    }
+    TreeNode* bstToGst(TreeNode* root) {
+        int sum = 0;
+        rInorder(root,sum);
+        return root;
+    }
+};
+
+Time: O(N), Space = Auxiliary
