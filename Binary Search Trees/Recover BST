@@ -1,0 +1,55 @@
+Method 1
+class Solution {
+public:
+    void inorder(TreeNode*root , vector<int>&arr){
+        if(root==NULL) return ;
+        inorder(root->left,arr);
+        arr.push_back(root->val);
+        inorder(root->right,arr);
+    }
+    
+    void updateTree(TreeNode *&root,vector<int> &arr,int& index){
+        if(root==NULL || index==arr.size()) return;
+        updateTree(root->left,arr,index);
+        root->val = arr[index];
+        index++;
+        updateTree(root->right,arr,index);
+    }
+    void recoverTree(TreeNode* root) {
+        vector<int>arr;
+        if(root==NULL) return ;
+        inorder(root,arr);  // get current sequence of elements
+        sort(arr.begin(),arr.end()); //sort to get correct sequence
+        int index = 0;
+        updateTree(root,arr,index); // arrange the element in correct sequence
+    }
+};
+
+Time = O(2N + NlogN) Space = O(N) + aux
+
+method- 2 (Optimized)
+
+class Solution {
+public:
+    void inorder(TreeNode *root, TreeNode *&prev, TreeNode *&first, TreeNode *&last){
+        if(root==NULL) return;
+        inorder(root->left,prev,first,last);
+        if(prev != NULL && prev->val > root->val){
+            if(first== NULL){
+                first = prev; // only first time when condition violated this statement execute.
+            }
+            last = root;   // when nodes are adjacent this will be update again.
+        }
+        prev = root;
+        inorder(root->right,prev,first,last);
+    }
+    void recoverTree(TreeNode* root) {
+        if(root==NULL) return;
+        TreeNode *prev = NULL,*first = NULL, *last = NULL;
+        
+        inorder(root,prev,first,last);
+        swap(first->val,last->val);
+    }
+};
+
+Time = O(N) Space = O(N) (Auxiliary)
