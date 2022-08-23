@@ -1,0 +1,26 @@
+link: https://leetcode.com/problems/two-sum-iv-input-is-a-bst/
+
+solution:
+
+class Solution {
+public:
+    bool traverse(TreeNode *root, TreeNode *curr, int k){
+        if(curr == NULL) return false;
+        
+        return search(root,curr,k-curr->val) || traverse(root,curr->left,k) || traverse(root,curr->right,k);
+    }
+    
+    bool search(TreeNode *root, TreeNode *curr, int target){
+        if(root == NULL) return NULL;
+        if(root->val == target && root != curr) return true;
+        else if(root->val < target) return search(root->right,curr, target);
+        return search(root->left,curr, target);
+    }
+    
+    bool findTarget(TreeNode* root, int k) {
+        return traverse(root,root,k);
+    }
+};
+
+space: O(h)
+time = O(N)
