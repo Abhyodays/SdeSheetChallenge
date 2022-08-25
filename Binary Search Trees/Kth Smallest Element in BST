@@ -2,18 +2,18 @@ method-1:
 
 class Solution {
 public:
-    void inorder(TreeNode *root, vector<int>&v){
-        if(root==NULL) return;
-        inorder(root->left,v);
-        v.push_back(root->val);
-        inorder(root->right,v);
+    void getKthSmallest(TreeNode *root,int &k, int &ans){
+        if(root==NULL) return ;
+        getKthSmallest(root->left,k,ans);
+        k--;
+        if(k==0) ans = root->val;
+        getKthSmallest(root->right,k,ans);
     }
     int kthSmallest(TreeNode* root, int k) {
-        vector<int>v;
-        inorder(root,v);
-        return v[k-1];
-        
+        int ans = -1;
+        getKthSmallest(root,k,ans);
+        return ans;
     }
 };
 
-T(N) = O(N), Space- EXtra Space
+T(N) = O(N), Space- Aux Space
