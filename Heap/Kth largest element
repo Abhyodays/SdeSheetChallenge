@@ -13,3 +13,4 @@ public:
         return minheap.top();
     }
 };
+Time: nLogK space = O(K)
