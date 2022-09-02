@@ -1,0 +1,37 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void solve(vector<int>combination,vector<int>&coins,int index, int sum, vector<vector<int>> &ans){
+    if(sum==0){
+        ans.push_back(combination);
+        return;
+    }
+    
+    for(int i=index;i<coins.size() && coins[i]<=sum; i++){
+        combination.push_back(coins[i]);
+        solve(combination,coins,i,sum-coins[i],ans);
+        combination.pop_back();
+    }
+}
+vector<vector<int>> getCombination(vector<int>&coins, int sum){
+    vector<vector<int>>ans;
+    vector<int>combination;
+    solve(combination,coins,0,sum,ans);
+    return ans;
+}
+int main()
+{
+    vector<int>coins = {1,2,5};
+    int sum = 10;
+    vector<vector<int>>ans;
+    ans = getCombination(coins,sum);
+    for(auto v: ans){
+        for(int num: v) cout<<num<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
+
+Time: O(2^N) space: O(N);
