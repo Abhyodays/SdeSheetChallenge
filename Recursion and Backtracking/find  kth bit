@@ -1,0 +1,20 @@
+class Solution {
+public:
+    char kthBit(string str,int k, int n){
+        if(n<=0){
+            return str[k-1];
+        }
+        string istr = "";
+        for(int i=str.length()-1;i>=0;i--){
+            istr+= (str[i]=='0'?'1':'0');
+        }
+        str = (str+'1')+istr;
+        return kthBit(str,k,n-1);
+        
+    }
+    char findKthBit(int n, int k) {
+        string str = "0";
+        return kthBit(str,k,n-1);
+    }
+};
+time = n*n
