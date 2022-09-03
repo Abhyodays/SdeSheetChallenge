@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int m = 1e9+7;  // prevent the overflow
+    long long power(long long x,long long n){
+        long long res = 1;
+        while(n>0){
+            if(n%2==1){
+                res = (res*x)%m;
+            }
+            n/=2;
+            x = (x*x)%m;
+        }
+        return res;
+    }
+    int countGoodNumbers(long long n) {
+        long long c4 = n/2;
+        long long c5 = n-c4;
+        
+        //total nuber will be 5*4*5*4....n times
+        long long res = (power(4,c4)%m * power(5,c5)%m)%m;
+        return res;
+    }
+};
