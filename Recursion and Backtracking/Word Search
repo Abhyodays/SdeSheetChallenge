@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool search(vector<vector<char>> &board, string word, int index, int r, int c,vector<vector<bool>>&visited){
+        int m=board.size(),n=board[0].size();
+        if(index>= word.length()) return true; //means word is present.
+        // check all the conditions for that answer can be false.
+        if(r<0 || c<0 || r>=m || c>=n || board[r][c]!=word[index] || visited[r][c]==true) return false;
+        //marking current position visited to prevent infinite loop.
+        visited[r][c] = true;
+        // visiting in all four directions from position r,c
+        bool res =  search(board,word,index+1,r+1,c,visited)||search(board,word,index+1,r-1,c,visited)||search(board,word,index+1,r,c+1,visited)||search(board,word,index+1,r,c-1,visited);
+        // unmark the current position for future use.
+        visited[r][c] = false;
+         return res;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int m = board.size(), n = board[0].size();
+        vector<vector<bool>>visited(m,vector<bool>(n,false));
+        // word can be start from any of the value in matrix.
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(search(board,word,0,i,j,visited)) return true;
+            }
+        }
+        
+        return false;
+        
+    }
+};
+
+Time = O(4^n) space = O(n^2) + auxiliary space
