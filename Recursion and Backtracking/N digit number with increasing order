@@ -1,0 +1,28 @@
+class Solution
+{
+public:
+
+    void getAllNum(int num,int n,vector<int>&ans){
+        if(num==0 && n==1) ans.push_back(0); //for handle a test case.
+        if(num>(pow(10,n)-1)) return; // if num exceeds the range.
+        if(num>=pow(10,n-1) && num<pow(10,n)){ //num resides in range.
+            ans.push_back(num);
+            return;
+        }
+        //num in lower bound of range.
+        for(int i=1;i<=9;i++){
+            int ld = num%10; 
+            if(i>ld) // for strictly increasing order digit.
+              getAllNum(num*10+i,n,ans);
+        }
+    }
+    vector<int> increasingNumbers(int N)
+    {
+        // Write Your Code here
+        vector<int>ans;
+        getAllNum(0,N,ans);
+        return ans;
+    }
+};
+
+time = O(9^N) space = N
