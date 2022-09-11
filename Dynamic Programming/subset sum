@@ -1,0 +1,24 @@
+int Solution::solve(vector<int> &arr, int sum) {
+    int n = arr.size();
+    bool dp[n+1][sum+1];
+    
+    for(int i=0;i<=n;i++){ // when weight is zero then empty subset always give true answer.
+        dp[i][0] = 1;
+    }
+    for(int j=1; j<=sum; j++){ // when there is no item in array then answer will be false.
+        dp[0][j] = 0;
+    }
+    
+    for(int i=1;i<=n;i++){
+        for(int j=1; j<=sum ;j++){
+            if(arr[i-1]<=j){
+                dp[i][j] = dp[i-1][j]  //element not included
+                           ||dp[i-1][j-arr[i-1]]; //element included
+            }
+            else{
+                dp[i][j] = dp[i-1][j]; // element not included
+            }
+        }
+    }
+    return dp[n][sum];
+}
