@@ -1,0 +1,47 @@
+// method 1. Recursion
+class Solution{
+  public:
+    int solve(int i,int price[], int n){
+        if(i>n){
+            return 0;
+        }
+        return max(solve(i,price,n-i)+price[i-1],solve(i+1,price,n));
+    }
+    int cutRod(int price[], int n) {
+        //code here
+        return solve(1,price,n);
+        
+        
+    }
+};
+Time = 2^n, space = O(n);
+
+// method-2 Dynamic Programming
+class Solution{
+  public:
+    int cutRod(int price[], int n) {
+        //code here
+        int l = n;
+        vector<int>length;
+        for(int i=0;i<l;i++) length.push_back(i+1);
+        int dp[n+1][l+1];
+        for(int i=0;i<=n;i++){
+            for(int j=0;j<=l;j++){
+                if(i==0||j==0) dp[i][j] = 0;
+            }
+        }
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=l;j++){
+                if(length[i-1]<=j){
+                    dp[i][j] = max(price[i-1]+dp[i][j-length[i-1]],dp[i-1][j]);
+                }
+                else{
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[n][l];
+    }
+};
+TIme = n^2, space = N^2
