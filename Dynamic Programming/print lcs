@@ -1,0 +1,25 @@
+Memoization
+
+string solve(string s, int m, string t, int n, vector<vector<string>>&dp){
+    if(m==0||n==0){
+        return "";
+    }
+    if(dp[m][n] != "") return dp[m][n];
+    
+    if(s[m-1]==t[n-1]){
+        return solve(s,m-1,t,n-1,dp)+s[m-1];
+    }
+    else{
+        string s1 = solve(s,m,t,n-1,dp);
+        string s2 = solve(s,m-1,t,n,dp);
+        return s1.length()>s2.length()?s1:s2;
+    }
+}
+string lcs(string s, string t)
+{
+	//Write your code here
+    int m = s.length(), n= t.length();
+    vector<vector<string>>dp(m+1,vector<string>(n+1,""));
+    string ans = solve(s,m,t,n,dp);
+    return ans;
+}
