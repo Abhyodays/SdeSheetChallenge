@@ -23,3 +23,33 @@ string lcs(string s, string t)
     string ans = solve(s,m,t,n,dp);
     return ans;
 }
+
+Dynamic Programming
+
+string printLCS(string a, string b){
+    int n = a.length(), m = b.length();
+    
+    vector<vector<string>>dp(n+1,vector<string>(m+1));
+    
+    for(int i=0;i<=n;i++){
+        for(int j=0;j<=m;j++){
+            if(i==0||j==0){
+                dp[i][j] = "";
+            }
+        }
+    }
+    
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            if(a[i-1] == b[j-1]){
+                dp[i][j] = dp[i-1][j-1]+a[i-1];
+            }
+            else{
+                string s1 = dp[i][j-1];
+                string s2 = dp[i-1][j];
+                dp[i][j] = s1.length()>s2.length()?s1:s2;
+            }
+        }
+    }
+    return dp[n][m];
+}
