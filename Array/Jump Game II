@@ -1,0 +1,37 @@
+Recursion (TLE)
+
+class Solution {
+public:
+    int solve(vector<int>&nums, int index, int ans){
+        if(index>=nums.size()-1) return ans;
+        if(nums[index]==0) return INT_MAX;
+        int res = INT_MAX;
+        for(int i=1; i<=nums[index]; i++){
+             res = min(solve(nums,index+i, ans+1),res);
+        }
+        return res;
+    }
+    int jump(vector<int>& nums) {
+        return solve(nums,0,0);
+    }
+};
+
+optimal solution: 
+** in this solution we calculate maxJump for every index, when i reach maxJump then jump will increase.
+
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int curJump = 0, jmp = 0, maxJump = 0, i =0, n = nums.size();
+        while(i<n-1){
+            maxJump = max(maxJump, nums[i]+i);
+            if(i==curJump){
+                jmp++;
+                curJump = maxJump;
+            }
+            i++;
+        }
+        return jmp;
+    }
+};
+Time: n space 0;
