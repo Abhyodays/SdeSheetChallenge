@@ -1,0 +1,51 @@
+class Solution {
+public:
+    void permutate(int index, vector<int> &nums, set<vector<int>>&store){
+        if(index==nums.size()-1){
+            store.insert(nums);
+        }
+        else{
+        for(int i=index; i<nums.size(); i++){
+            swap(nums[index], nums[i]);
+            permutate(index+1, nums,store);
+            swap(nums[index],nums[i]);
+            }
+        }
+    }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        set<vector<int>> store;
+        permutate(0,nums,store);
+        vector<vector<int>>ans;
+        for(auto v: store){
+            ans.push_back(v);
+        }
+        return ans;
+        
+    }
+};
+Time N*N ,space = N
+
+Space optimized Code:
+
+class Solution {
+public:
+    void solve(vector<int>nums, int index, vector<vector<int>>&ans){
+        if(index==nums.size()-1){
+            ans.push_back(nums);
+            return ;
+        }
+        for(int i=index; i<nums.size(); i++){
+            if(i!= index && nums[i]==nums[index]) continue;
+            swap(nums[i],nums[index]);
+            solve(nums, index+1, ans);
+        }
+    }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>>ans;
+        solve(nums,0,ans);
+        return ans;
+    }
+};
+
+Time: N*N space = 1 (excluding auxiliary)
