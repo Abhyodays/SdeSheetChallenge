@@ -1,0 +1,37 @@
+#include<iostream>
+#include<string>
+#include<vector>
+
+using namespace std;
+
+void solve(int n, string s, vector<string>&ans){
+    if(n==0){
+        ans.push_back(s);
+        return;
+    }
+    int len = s.length();
+    if(len>0 && s[len-1]=='1'){
+        solve(n-1,s+'0',ans);
+    }
+    else{
+        solve(n-1,s+'0',ans);
+        solve(n-1, s+'1',ans);
+    }
+        
+}
+vector<string>getAllBinaryString(int n){
+    vector<string>ans;
+    if(n==0) return ans;
+    solve(n,"",ans);
+    return ans;
+    
+}
+int main(){
+    int n;
+    cin>>n;
+    vector<string> ans = getAllBinaryString(n);
+    for(auto s: ans) cout<<s<<",";
+    return 0;
+}
+
+Time = 2^n
