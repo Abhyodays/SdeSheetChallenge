@@ -1,0 +1,28 @@
+string Solution::solve(string A, int B) {
+    string ans = "";
+    int n = A.length();
+    int i = 0;
+    while(i<n-1){
+        int it = i;
+        if(A[it]==A[it+1]){
+            //Consecutive letters occurs
+            char ch = A[it];
+            int l = 0;
+            while(A[it]==ch && it<n){
+                l++;
+                it++;
+                //when length of consecutive letters is B, remove all letters.
+                if(l==B){
+                    i+=B;
+                    l = 0;
+                }
+            }
+        }
+        //If letters are not consecutive.
+        else{
+            ans+= A[i];
+            i++;
+        }
+    }
+    return ans;
+}
